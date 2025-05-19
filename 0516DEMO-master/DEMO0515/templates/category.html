@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>類別詳情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #0f1623;
+            color: white;
+            font-family: "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #4aa3ff;
+            text-decoration: none;
+            margin: 20px;
+            font-size: 16px;
+        }
+        .solution-container {
+            padding: 20px;
+        }
+        h1 {
+            color: white;
+            margin: 20px;
+            margin-bottom: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: calc(100% - 40px); /* 考慮左右margin各20px */
+        }
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .solution-card {
+            background-color: #1a2332;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .solution-title {
+            font-size: 18px;
+            color: #ffffff; /* 改為純白色 */
+            margin-bottom: 20px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        .solution-link {
+            display: inline-block;
+            color: #4aa3ff;
+            text-decoration: none;
+            padding: 8px 16px;
+            background-color: transparent;
+            border: 1px solid #4aa3ff;
+            border-radius: 6px;
+            transition: all 0.3s;
+            width: fit-content;
+            font-size: 14px;
+        }
+        .solution-link:hover {
+            background-color: #4aa3ff;
+            color: white;
+        }
+        
+        /* 添加RWD响应式样式 */
+        @media (max-width: 1024px) {
+            .solutions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .solution-card {
+                height: 130px;
+                padding: 15px;
+            }
+            .solution-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link" onclick="localStorage.setItem('needReload', 'true')">← 返回首頁</a>
+    <div class="solution-container">
+        <h1 id="categoryTitle"></h1>
+        <div class="solutions-grid" id="solutionsGrid"></div>
+    </div>
+
+    <script>
+        const category = decodeURIComponent(window.location.pathname.split('/').pop());
+        document.getElementById('categoryTitle').textContent = category;
+        
+        fetch('/api/csv-to-json')
+            .then(response => response.json())
+            .then(data => {
+                const solutions = data.filter(item => item.category === category);
+                const container = document.getElementById('solutionsGrid');
+                
+                solutions.forEach(solution => {
+                    const card = document.createElement('div');
+                    card.className = 'solution-card';
+                    card.innerHTML = `
+                        <div class="solution-title">${solution.title}</div>
+                        <a href="${solution.url}" target="_blank" class="solution-link">查看詳情</a>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+    </script>
+</body>
+</html>

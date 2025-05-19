@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI解決方案中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 手機版樣式調整 */
+        @media (max-width: 768px) {
+            .banner {
+                flex-direction: column;
+            }
+            .banner-text {
+                order: -1;
+                padding-right: 0;
+                margin-bottom: 30px;
+                text-align: center;  /* 新增：文字置中 */
+                width: 100%;  /* 確保寬度填滿 */
+            }
+            .banner-title {
+                font-size: 28px;
+            }
+            .banner-subtitle {
+                font-size: 16px;
+            }
+            .login-box {
+                width: 100%;
+            }
+        }
+        body {
+            background-color: #0f1623;
+            color: white;
+            font-family: "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 第一區塊：BANNER和登入 */
+        .banner-section {
+            background-color: #1a2332;
+            padding: 40px 20px;
+        }
+        
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .banner-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+        
+        .banner-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        
+        .banner-stats {
+            background: #1a2332;
+            padding: 20px;
+            border-radius: 12px;
+            width: 400px;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stats-number {
+            font-size: 32px;
+            color: #4aa3ff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: #2a3342;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-chart {
+            height: 100px;
+            margin-top: 10px;
+        }
+        
+        /* 登入區塊樣式 */
+        .login-box {
+            background: #1a2332;
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #4aa3ff, #3a8ad9);
+        }
+        
+        .login-box::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(74, 163, 255, 0.1) 0%, rgba(26, 35, 50, 0) 100%);
+            pointer-events: none;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .login-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: #4aa3ff;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            color: #8b95a5;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #2a3342;
+            background: #2a3342;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #4aa3ff;
+            box-shadow: 0 0 0 2px rgba(74, 163, 255, 0.2);
+            outline: none;
+        }
+        
+        .login-button {
+            background: linear-gradient(90deg, #4aa3ff, #3a8ad9);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .login-button:hover {
+            background: linear-gradient(90deg, #3a8ad9, #2a7ac9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 163, 255, 0.2);
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            color: #8b95a5;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #2a3342;
+            background: #2a3342;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .login-button {
+            background: #4aa3ff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-button:hover {
+            background: #3a8ad9;
+        }
+        
+        /* 隱藏未登入時的探索按鈕 */
+        .explore-button.hidden {
+            display: none;
+        }
+
+        /* 第二區塊：大字卡區域 */
+        .cards-section {
+            background-color: #141d2c;
+            padding: 40px 20px;
+        }
+        
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .category-card {
+            background-color: #1a2332;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;  /* 修改：將內容置中 */
+            gap: 25px;
+            height: 160px;
+            justify-content: space-between;
+        }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;  /* 使用純白色 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;  /* 修改：文字置中 */
+            display: block;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 移除這個重複的 .category-title 樣式定義 */
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #2a3342;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .category-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .category-subtitle {
+            font-size: 14px;
+            color: #8b95a5;
+        }
+        .explore-button {
+            background-color: transparent;
+            border: 1px solid #4aa3ff;
+            color: #4aa3ff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            width: fit-content;
+        }
+        
+        /* 添加BANNER相关样式 */
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+        }
+        
+        .banner-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+        
+        .banner-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .banner-subtitle {
+            font-size: 20px;
+            color: #ffffff;  /* 白色 */
+            line-height: 2;
+            font-weight: bold;  /* 粗體 */
+        }
+        
+        .banner-stats {
+            background: #1a2332;
+            padding: 20px;
+            border-radius: 12px;
+            width: 400px;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stats-number {
+            font-size: 32px;
+            color: #4aa3ff;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: #2a3342;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-chart {
+            height: 100px;
+            margin-top: 10px;
+        }
+        
+        /* 登入區塊樣式 */
+        .login-box {
+            background: #1a2332;
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+        }
+        
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            color: #8b95a5;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #2a3342;
+            background: #2a3342;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .login-button {
+            background: #4aa3ff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-button:hover {
+            background: #3a8ad9;
+        }
+        
+        /* 隱藏未登入時的探索按鈕 */
+        .explore-button.hidden {
+            display: none;
+        }
+
+        /* 第三區塊：頁尾 */
+        .footer-section {
+            background-color: #0d1420;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: #8b95a5;
+        }
+        
+        .footer-content p {
+            font-size: 18px;  /* 與banner-title相同大小 */
+            font-weight: bold;  /* 粗體 */
+            color: white;  /* 白色 */
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 第一區塊：BANNER和登入 -->
+    <div class="banner-section">
+        <div class="banner">
+            <div class="banner-text">
+                <div class="banner-title">最佳企業AI解決方案中心</div>
+                <div class="banner-subtitle">
+                    私人智慧管家，專屬於您的AI解決方案<br>
+                    資料在地、端對端驗證制度在手<br>
+                    AI快速部署，資料安全不外流<br>
+                    就在<a href="https://www.zh-aoi.com/" style="color: #F9F900; text-decoration: none; text-shadow: 0 0 5px rgba(249, 249, 0, 0.5);">強茂</a>
+                </div>
+            </div>
+            <div class="login-box">
+                <div class="login-title">登入系統</div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label>帳號</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="login-button">登入</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二區塊：大字卡區域 -->
+    <div class="cards-section">
+        <div class="category-container" id="categories"></div>
+    </div>
+
+    <!-- 第三區塊：頁尾 -->
+    <div class="footer-section">
+        <div class="footer-content">
+            <p>© 2025 <a href="https://www.zh-aoi.com/" style="color: #F9F900; text-decoration: none;">智合科技</a> 版權所有</p>
+        </div>
+    </div>
+    <script>
+        // 從 localStorage 檢查登入狀態
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+        // 添加登出功能
+        function logout() {
+            isLoggedIn = false;
+            localStorage.removeItem('isLoggedIn');
+            // 重置登入框
+            document.querySelector('.login-box').innerHTML = `
+                <div class="login-title">登入系統</div>
+                <form class="login-form" id="loginForm">
+                    <div class="form-group">
+                        <label>帳號</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密碼</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="login-button">登入</button>
+                </form>
+            `;
+            // 重新載入卡片以更新狀態
+            loadCategories();
+            // 重新綁定登入表單事件
+            attachLoginFormHandler();
+        }
+
+        // 封裝登入表單事件綁定
+        function attachLoginFormHandler() {
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // 驗證固定的admin帳號密碼
+                if (username === 'admin' && password === 'admin') {
+                    isLoggedIn = true;
+                    localStorage.setItem('isLoggedIn', 'true');
+                    document.querySelector('.login-box').innerHTML = `
+                        <div class="login-title">已登入</div>
+                        <div style="color: #8b95a5;">歡迎回來，管理員</div>
+                        <button class="login-button" onclick="logout()" style="margin-top: 20px;">登出</button>
+                    `;
+                    loadCategories();
+                } else {
+                    alert('帳號或密碼錯誤，請使用 admin/admin 登入');
+                }
+            });
+        }
+
+        // 頁面載入時立即執行
+        window.addEventListener('load', function() {
+            if (isLoggedIn) {
+                document.querySelector('.login-box').innerHTML = `
+                    <div class="login-title">已登入</div>
+                    <div style="color: #8b95a5;">歡迎回來，管理員</div>
+                    <button class="login-button" onclick="logout()" style="margin-top: 20px;">登出</button>
+                `;
+                loadCategories();
+            } else {
+                attachLoginFormHandler();
+            }
+        });
+
+        // 將卡片載入邏輯封裝成函數
+        function loadCategories() {
+            fetch('/api/csv-to-json')
+                .then(response => response.json())
+                .then(data => {
+                    const categories = [...new Set(data.map(item => item.category))];
+                    const container = document.getElementById('categories');
+                    container.innerHTML = ''; // 清空現有卡片
+                    
+                    categories.forEach(category => {
+                        const categoryData = data.filter(item => item.category === category);
+                        const card = document.createElement('a');
+                        card.className = 'category-card';
+                        card.href = isLoggedIn ? `/category/${encodeURIComponent(category)}` : '#';
+                        card.innerHTML = `
+                            <div class="category-title">${category}</div>
+                            <div class="explore-button">探索更多</div>
+                        `;
+                        
+                        // 未登入時點擊卡片提示需要登入
+                        if (!isLoggedIn) {
+                            card.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                alert('請先登入系統');
+                            });
+                        }
+                        
+                        container.appendChild(card);
+                    });
+                });
+        }
+
+        // 初始載入卡片
+        loadCategories();
+    </script>
+</body>
+</html>
